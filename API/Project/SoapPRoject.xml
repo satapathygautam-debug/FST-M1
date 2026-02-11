@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="GitHubProject" name="GitHub API Project" xmlns:con="http://eviware.com/soapui/config">
+    <con:settings/>
+    <con:properties>
+        <con:property name="baseURL">https://api.github.com</con:property>
+        <con:property name="authToken">YOUR_PERSONAL_ACCESS_TOKEN</con:property>
+        <con:property name="keyId"></con:property>
+    </con:properties>
+
+    <con:interface id="GitHubAPI" type="rest" name="GitHub API">
+        <!-- POST: Add SSH Key -->
+        <con:operation id="POSTKey" name="Add SSH Key" method="POST" resourcePath="/user/keys">
+            <con:request name="POST Request">
+                <con:representation mediaType="application/json">
+                    <con:content>{"title":"TestKey","key":"ssh-ed25519 AAA..."}</con:content>
+                </con:representation>
+                <con:authorization type="OAUTH2">
+                    <con:profile>GitHubAuth</con:profile>
+                </con:authorization>
+                <con:assertion type="ValidHttpStatusCodes" codes="201"/>
+                <!-- Property Transfer: Capture ID -->
+                <con:property-transfer>
+                    <con:source>POST Request</con:source>
+                    <con:property>id</con:property>
+                    <con:target>Project</con:target>
+                    <con:targetProperty>keyId</con:targetProperty>
+                </con:property-transfer>
+            </con:request>
+        </con:operation>
+
+        <!-- GET: Retrieve SSH Key -->
+        <con:operation id="GETKey" name="Get SSH Key" method="GET" resourcePath="/user/keys/${#Project#keyId}">
+            <con:request name="GET Request">
+                <con:authorization type="OAUTH2">
+                    <con:profile>GitHubAuth</con:profile>
+                </con:authorization>
+                <con:assertion type="ValidHttpStatusCodes" codes="200"/>
+            </con:request>
+        </con:operation>
+
+        <!-- DELETE: Remove SSH Key -->
+        <con:operation id="DELETEKey" name="Delete SSH Key" method="DELETE" resourcePath="/user/keys/${#Project#keyId}">
+            <con:request name="DELETE Request">
+                <con:authorization type="OAUTH2">
+                    <con:profile>GitHubAuth</con:profile>
+                </con:authorization>
+                <con:assertion type="ValidHttpStatusCodes" codes="204"/>
+            </con:request>
+        </con:operation>
+    </con:interface>
+
+    <con:restMockService/>
+</con:soapui-project>
