@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Appium Android Test Suite" verbose="1">
+    
+    <!-- Native App Tests -->
+    <test name="Native App - To-Do List Tests" preserve-order="true">
+        <classes>
+            <class name="com.appium.tests.NativeApp_Activity1_AddTasksTest"/>
+            <class name="com.appium.tests.NativeApp_Activity2_EditTaskTest"/>
+            <class name="com.appium.tests.NativeApp_Activity3_CompleteTasksTest"/>
+        </classes>
+    </test>
+    
+    <!-- Chrome Browser Tests -->
+    <test name="Chrome Browser - Web Tests" preserve-order="true">
+        <classes>
+            <class name="com.appium.tests.ChromeApp_Activity1_ToDoListTest"/>
+            <class name="com.appium.tests.ChromeApp_Activity2_LoginFormTest"/>
+            <class name="com.appium.tests.ChromeApp_Activity3_LoginPopupTest"/>
+        </classes>
+    </test>
+    
+</suite>
