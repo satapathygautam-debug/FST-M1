@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="Activity4Project" name="Activity4Project" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface id="IPWhoisAPI" type="rest" name="IPWhois API" definition="http://ipwhois.app/json/{IP}"/>
+  <con:resources>
+    <con:resource name="IPLookup" path="/json/{IP}">
+      <con:method name="LookupIP" method="GET">
+        <con:request name="Request 1">
+          <con:parameters>
+            <!-- Parameter value will be replaced by DataSource -->
+            <con:parameter name="IP" value="${DataSource#address}" style="TEMPLATE"/>
+          </con:parameters>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:resources>
+
+  <con:testSuites>
+    <con:testSuite name="Activity4 Test Suite">
+      <con:testCase name="Data Driven IP Lookup">
+        <!-- DataSource Step -->
+        <con:testStep type="datasource" name="DataSource">
+          <con:config>
+            <con:type>File</con:type>
+            <con:properties>
+              <con:property name="address"/>
+            </con:properties>
+            <con:file>ip_addresses.txt</con:file>
+          </con:config>
+        </con:testStep>
+
+        <!-- Request Step -->
+        <con:testStep type="restrequest" name="Request 1">
+          <con:assertion type="Valid HTTP Status Codes">
+            <con:configuration>200</con:configuration>
+          </con:assertion>
+
+          <!-- JSONPath Match Assertion: verify country field exists -->
+          <con:assertion type="JsonPath Match">
+            <con:configuration>
+              <con:jsonPathExpression>$['country']</con:jsonPathExpression>
+              <con:expectedResult>United States</con:expectedResult>
+            </con:configuration>
+          </con:assertion>
+        </con:testStep>
+
+        <!-- DataSource Loop -->
+        <con:testStep type="datasourceloop" name="DataSource Loop">
+          <con:config>
+            <con:dataSourceStep>DataSource</con:dataSourceStep>
+            <con:targetStep>Request 1</con:targetStep>
+          </con:config>
+        </con:testStep>
+      </con:testCase>
+    </con:testSuite>
+  </con:testSuites>
+</con:soapui-project>

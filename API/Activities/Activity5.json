@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "IPWhois Data-Driven Test",
+    "_postman_id": "12345678-abcd-efgh-ijkl-987654321000",
+    "description": "Data-driven API test using IP addresses from Excel",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "IP Lookup",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://ipwhois.app/json/{{IP}}",
+          "protocol": "http",
+          "host": ["ipwhois", "app"],
+          "path": ["json", "{{IP}}"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "IP",
+      "value": "164.172.55.44"
+    },
+    {
+      "key": "IP",
+      "value": "149.147.244.212"
+    },
+    {
+      "key": "IP",
+      "value": "94.127.62.254"
+    }
+  ]
+}

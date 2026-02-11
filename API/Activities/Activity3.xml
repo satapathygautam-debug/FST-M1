@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="CalculatorProject" name="CalculatorProject" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface id="CalculatorAPI" type="wsdl" name="Calculator SOAP API" definition="http://www.dneonline.com/calculator.asmx?WSDL"/>
+  <con:resources>
+    <con:resource name="Add" path="/Add">
+      <con:method name="Add" method="POST">
+        <con:request name="Add Request">
+          <con:request>
+            <![CDATA[
+            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+              <soap:Body>
+                <Add xmlns="http://tempuri.org/">
+                  <intA>10</intA>
+                  <intB>20</intB>
+                </Add>
+              </soap:Body>
+            </soap:Envelope>
+            ]]>
+          </con:request>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:resources>
+
+  <con:testSuites>
+    <con:testSuite name="Calculator Test Suite">
+      <con:testCase name="Add Operation Test Case">
+        <con:testStep type="request" name="Add Request">
+          <con:assertion type="XPath Match">
+            <con:configuration>
+              <!-- Namespace declaration -->
+              declare namespace ns1='http://tempuri.org/';
+              <!-- XPath expression to match AddResult -->
+              //ns1:AddResult
+            </con:configuration>
+            <con:expectedResult>30</con:expectedResult>
+          </con:assertion>
+        </con:testStep>
+      </con:testCase>
+    </con:testSuite>
+  </con:testSuites>
+</con:soapui-project>

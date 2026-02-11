@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="Activity2Project" name="Activity2Project" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface id="PetAPI" type="rest" name="Petstore API" definition="https://petstore.swagger.io/v2/pet/findByStatus"/>
+  <con:resources>
+    <con:resource name="findByStatus" path="/pet/findByStatus">
+      <con:method name="FindByStatus" method="GET">
+        <con:request name="FindByStatus Request">
+          <con:parameters>
+            <con:parameter name="status" value="sold" style="QUERY"/>
+          </con:parameters>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:resources>
+
+  <con:testSuites>
+    <con:testSuite name="Activity2 Test Suite">
+      <con:testCase name="FindByStatus Test Case">
+        <con:testStep type="restrequest" name="FindByStatus Request">
+          <!-- Assertion: Status code is 200 -->
+          <con:assertion type="Valid HTTP Status Codes">
+            <con:configuration>200</con:configuration>
+          </con:assertion>
+
+          <!-- Assertion: JSONPath Match for first element's status -->
+          <con:assertion type="JsonPath Match">
+            <con:configuration>
+              <con:jsonPathExpression>$[0].status</con:jsonPathExpression>
+              <con:expectedResult>sold</con:expectedResult>
+            </con:configuration>
+          </con:assertion>
+
+          <!-- Assertion: JSONPath Existence Match for id property -->
+          <con:assertion type="JsonPath Existence Match">
+            <con:configuration>
+              <con:jsonPathExpression>$[*].id</con:jsonPathExpression>
+              <con:expectedResult>true</con:expectedResult>
+            </con:configuration>
+          </con:assertion>
+        </con:testStep>
+      </con:testCase>
+    </con:testSuite>
+  </con:testSuites>
+</con:soapui-project>

@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "IPWhois Data-Driven & JDBC Test",
+    "_postman_id": "abcd-1234-efgh-5678",
+    "description": "Assignment covering Activity 5 (Excel-driven API test) and Activity 6 (JDBC DataSink integration).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "IP Lookup",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://ipwhois.app/json/{{IP}}",
+          "protocol": "http",
+          "host": ["ipwhois", "app"],
+          "path": ["json", "{{IP}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response contains country', function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property('country');",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "IP", "value": "164.172.55.44" },
+    { "key": "IP", "value": "149.147.244.212" },
+    { "key": "IP", "value": "94.127.62.254" }
+  ]
+}
