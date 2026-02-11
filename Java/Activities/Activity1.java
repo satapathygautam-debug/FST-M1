@@ -1,19 +1,16 @@
-package Activities;
-
 public class Activity1 {
-
     public static void main(String[] args) {
-
-       
-        Car myCar = new Car(); 
+        // Create an object of the Car class
+        Car myCar = new Car();
         
+        // Initialize the values
+        myCar.make = 2014;
         myCar.color = "Black";
-        myCar.transmission = "Automatic";
-        myCar.make = 2024;
-        myCar.tyres= 4;
-
-       
+        myCar.transmission = "Manual";
+        
+        // Call the methods
         myCar.displayCharacteristics();
+        System.out.println(); // Empty line for better readability
         myCar.accelarate();
         myCar.brake();
     }
