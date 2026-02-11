@@ -1,0 +1,32 @@
+-- 1. Produce the name and number of each salesman and each customer 
+--    with more than one current order, sorted alphabetically
+SELECT s.salesman_name, s.salesman_id, c.customer_name, c.customer_id
+FROM salesman s
+JOIN customers c ON s.salesman_id = c.salesman_id
+WHERE c.customer_id IN (
+    SELECT customer_id
+    FROM orders
+    GROUP BY customer_id
+    HAVING COUNT(order_no) > 1
+)
+ORDER BY s.salesman_name ASC, c.customer_name ASC;
+
+-- 2. Report of which salesman produced the largest and smallest orders on each date
+SELECT o.order_date,
+       MAX(o.purchase_amount) AS highest_on,
+       MIN(o.purchase_amount) AS lowest_on,
+       (SELECT s.salesman_name
+        FROM orders o2
+        JOIN salesman s ON o2.salesman_id = s.salesman_id
+        WHERE o2.order_date = o.order_date
+        AND o2.purchase_amount = MAX(o.purchase_amount)
+        FETCH FIRST 1 ROWS ONLY) AS salesman_highest,
+       (SELECT s.salesman_name
+        FROM orders o3
+        JOIN salesman s ON o3.salesman_id = s.salesman_id
+        WHERE o3.order_date = o.order_date
+        AND o3.purchase_amount = MIN(o.purchase_amount)
+        FETCH FIRST 1 ROWS ONLY) AS salesman_lowest
+FROM orders o
+GROUP BY o.order_date
+ORDER BY o.order_date;
